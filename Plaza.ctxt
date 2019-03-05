@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Plaza
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Plaza\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=Plaza()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Plaza\r\n
+comment2.params=numero\ estado\ tv
+comment2.target=Plaza(java.lang.String,\ java.lang.String,\ java.lang.String)
+comment3.params=
+comment3.target=java.lang.String\ getNumero()
+comment4.params=
+comment4.target=java.lang.String\ getEstado()
+comment5.params=
+comment5.target=java.lang.String\ getTv()
+comment6.params=numero
+comment6.target=void\ setNumero(java.lang.String)
+comment7.params=estado
+comment7.target=void\ setEstado(java.lang.String)
+comment8.params=tv
+comment8.target=void\ setTv(java.lang.String)
+numComments=9

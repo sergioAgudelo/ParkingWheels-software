@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Registros
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ Registros\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=
+comment1.target=Registros()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Registros\r\n
+comment2.params=nombre\ cedula\ telefono\ placa\ tv
+comment2.target=void\ ingresarConductor(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String)
+comment3.params=
+comment3.target=void\ mostrarConductores()
+comment4.params=searchCedula
+comment4.target=int\ searchByCedula(java.lang.String)
+comment5.params=indexConductor\ newTel
+comment5.target=void\ updateTelefono(int,\ java.lang.String)
+comment6.params=parametroBusqueda
+comment6.target=void\ mostrarConductorPorPlacaOCedula(java.lang.String)
+comment7.params=indexConductor
+comment7.target=void\ eliminarUsuarioPorCedula(int)
+numComments=8
