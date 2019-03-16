@@ -31,12 +31,32 @@ public class Registros
         Iterator<Conductor> iterator = conductores.iterator();
         while(iterator.hasNext()){
              Conductor conductor = iterator.next();
-             System.out.println("\n - Nombre: " + conductor.getNombre() +
+             System.out.println("\n******* - Nombre: " + conductor.getNombre() +
                                 ", Cedula: " + conductor.getCedula() +
                                 ", Telefono: " + conductor.getTelefono() +
                                 ", Placa: " + conductor.getPlaca() +
                                 ", TV: " + conductor.getTv()
                                 );
+        }
+    }
+    
+    public void mostrarConductorPorPlacaOCedula(String parametroBusqueda){
+        Iterator<Conductor> iterator = conductores.iterator();
+        boolean finished = false;
+        while(iterator.hasNext() && finished == false){
+            Conductor conductor = iterator.next();
+             if(conductor.getCedula().equals(parametroBusqueda) || conductor.getPlaca().equals(parametroBusqueda)){
+                 System.out.println("\n******* - Nombre: " + conductor.getNombre() +
+                                    ", Cedula: " + conductor.getCedula() +
+                                    ", Telefono: " + conductor.getTelefono() +
+                                    ", Placa: " + conductor.getPlaca() +
+                                    ", TV: " + conductor.getTv()
+                                    );
+                                    
+                 finished = true;
+             }else {
+                 System.out.println("*******El conductor con cedula/placa " + parametroBusqueda + " no existe.");
+            }
         }
     }
     
@@ -51,33 +71,18 @@ public class Registros
         return -1;
     }
     
-    public void updateTelefono(int indexConductor, String newTel){
-        conductores.get(indexConductor).setTelefono(newTel);
-        System.out.println("Telefono actualizado exitosamente.");
+    public Conductor getConductorByIndex(int index){
+        return conductores.get(index);
     }
     
-    public void mostrarConductorPorPlacaOCedula(String parametroBusqueda){
-        Iterator<Conductor> iterator = conductores.iterator();
-        boolean finished = false;
-        while(iterator.hasNext() && finished == false){
-            Conductor conductor = iterator.next();
-             if(conductor.getCedula().equals(parametroBusqueda) || conductor.getPlaca().equals(parametroBusqueda)){
-                 System.out.println("\n - Nombre: " + conductor.getNombre() +
-                                    ", Cedula: " + conductor.getCedula() +
-                                    ", Telefono: " + conductor.getTelefono() +
-                                    ", Placa: " + conductor.getPlaca() +
-                                    ", TV: " + conductor.getTv()
-                                    );
-                                    
-                 finished = true;
-                 System.out.println(finished);
-             }
-        }
+    public void updateTelefono(int indexConductor, String newTel){
+        conductores.get(indexConductor).setTelefono(newTel);
+        System.out.println("*******Telefono actualizado exitosamente.");
     }
     
     public void eliminarUsuarioPorCedula(int indexConductor){
         conductores.remove(indexConductor);
-        System.out.println("Usuario eliminado exitosamete.");
+        System.out.println("*******Usuario eliminado exitosamete.");
     }
     
     
