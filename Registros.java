@@ -31,7 +31,7 @@ public class Registros
         Iterator<Conductor> iterator = conductores.iterator();
         while(iterator.hasNext()){
              Conductor conductor = iterator.next();
-             System.out.println("\n******* - Nombre: " + conductor.getNombre() +
+             System.out.println("******* - Nombre: " + conductor.getNombre() +
                                 ", Cedula: " + conductor.getCedula() +
                                 ", Telefono: " + conductor.getTelefono() +
                                 ", Placa: " + conductor.getPlaca() +
@@ -45,7 +45,7 @@ public class Registros
         boolean finished = false;
         while(iterator.hasNext() && finished == false){
             Conductor conductor = iterator.next();
-             if(conductor.getCedula().equals(parametroBusqueda) || conductor.getPlaca().equals(parametroBusqueda)){
+             if(conductor.getCedula().equalsIgnoreCase(parametroBusqueda) || conductor.getPlaca().equalsIgnoreCase(parametroBusqueda)){
                  System.out.println("\n******* - Nombre: " + conductor.getNombre() +
                                     ", Cedula: " + conductor.getCedula() +
                                     ", Telefono: " + conductor.getTelefono() +
