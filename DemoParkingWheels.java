@@ -14,41 +14,22 @@ public class DemoParkingWheels
     static private Parqueadero parqueadero = creadorPlazas.crearPlazas();
     //static private Factura factura = Factura
     
+    static Scanner sc = new Scanner(System.in);
+    static int opcionElegida = 0;
+    
     public static void main(String[] args)
     {
-        Scanner sc = new Scanner(System.in);
         
-        int opcionElegida = 0;
+        String tv, placa, telefono, cedula, nombre, basura;
+        int indexConductor;
+        String estado;
+        int indexPlaza;
+        int numeroPlaza;
         
+        Conductor conductor = new Conductor();
+       
         do{
-            
-            String tv, placa, telefono, cedula, nombre, basura;
-            String numeroPlaza;
-            int indexConductor;
-            Conductor conductor = new Conductor();
-            
-            System.out.println("\n\n-------------\n\nBienvenido a ParkingWheels, \n\t¿Qué tarea deseas realizar?");
-            System.out.println("1 - Mostrar conductores.");
-            //with car or bike
-            System.out.println("2 - Insertar conductor.");
-            System.out.println("3 - Modificar telefono.");
-            System.out.println("4 - Mostrar conductor por placa o cedula.");
-            System.out.println("5 - Eliminar conductor.");
-            
-            //do the same to update "placa" and "tv"
-            //DO THE SAME TO PLAZAS
-            //show "plazas" by state
-            System.out.println("7 - Listar Plazas.");
-            System.out.println("8 - Listar plazas disponibles.");
-            System.out.println("9 - Listar plazas disponibles según TV.");
-            //metodo para obtener plazas y vehiculo estacionado
-            
-            System.out.println("10 - Generar factura.");
-            System.out.println("11 - Generar cobro.");
-            
-            System.out.println("0 - Salir");
-            System.out.print("--------> ");
-            opcionElegida = sc.nextInt();
+            menu();
             
             switch (opcionElegida){
                 //mostrar conductores
@@ -58,56 +39,24 @@ public class DemoParkingWheels
                 
                     //Insertar nuevo conductor
                 case 2:
-                    System.out.print("\nInserte el nombre -->");
-                    basura = sc.nextLine();
-                    nombre = sc.nextLine();
-                    System.out.print("\nInserte el cedula -->");
-                    cedula = sc.nextLine();
-                    System.out.print("\nInserte el telefono -->");
-                    telefono = sc.nextLine();
-                    System.out.print("\nInserte el placa -->");
-                    placa = sc.nextLine();
-                    System.out.print("\nInserte el tv -->");
-                    tv = sc.nextLine();
-                    
-                    registros.ingresarConductor(nombre, cedula, telefono, placa, tv);
+                    registros.ingresarConductor();
                     break;
-                   
+                       
                 //modificar telefono
                 case 3:
-                    System.out.print("\nDigite la cedula del usuario a modificar -->");
-                    basura = sc.nextLine();
-                    cedula = sc.nextLine();
-                    indexConductor = registros.searchByCedula(cedula);
-                    if(indexConductor == -1){
-                        System.out.println("*******No existe un usuario con esta cedula");
-                    }else{
-                        System.out.print("\nInserte el nuevo telefono -->");
-                        telefono = sc.nextLine();
-                        registros.updateTelefono(indexConductor, telefono);
-                    }
+                    indexConductor = registros.searchByCedula();
+                    registros.updateTelefono(indexConductor);
                     break;
                 
                 //buscar por placa o cedula
                 case 4:
-                    System.out.print("\nInserte la cedula/placa a buscar -->");
-                    //For this case cedula acts as a cedula or a placa to the search
-                    basura = sc.nextLine();
-                    cedula = sc.nextLine();
-                    registros.mostrarConductorPorPlacaOCedula(cedula);
+                    registros.mostrarConductorPorPlacaOCedula();
                     break;
                 
                 //eliminar conductor
                 case 5:
-                    System.out.print("\nDigite la cedula del conductor a eliminar -->");
-                    basura = sc.nextLine();
-                    cedula = sc.nextLine();
-                    indexConductor = registros.searchByCedula(cedula);
-                    if(indexConductor == -1){
-                        System.out.println("No existe un conductor con esta cedula");
-                    }else{
-                        registros.eliminarUsuarioPorCedula(indexConductor);
-                    }
+                    indexConductor = registros.searchByCedula();
+                    registros.eliminarUsuarioPorCedula(indexConductor);
                     break;
                 
                 //monstrar estados plazas
@@ -116,24 +65,32 @@ public class DemoParkingWheels
                     break;
                     
                 case 8:
-                    parqueadero.mostrarPlazasDisponibles();
+                    parqueadero.mostrarPlazasPorEstado();
                     break;
                     
                 case 9:
-                    System.out.print("\nInserte el TV a buscar -->");
-                    basura = sc.nextLine();
-                    tv = sc.nextLine();
-                    parqueadero.mostrarPlazasTv(tv);
+                    parqueadero.mostrarPlazasTv();
                     break;
                     
                 case 10:
-                    System.out.print("\nInserte la cedula -->");
-                    basura = sc.nextLine();
-                    cedula = sc.nextLine();
-                    indexConductor = registros.searchByCedula(cedula);
-                    if(indexConductor == -1){
-                        System.out.println("No existe un usuario con esta cedula");
-                    }else{
+                    parqueadero.mostrarPlazasPorEstado("Disponible");
+                    indexPlaza = parqueadero.searchPlazaByNumber();
+                    if(indexPlaza != -1){
+                        parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado");
+                    }
+                    break;
+                    
+                case 11:
+                    parqueadero.mostrarPlazasPorEstado("Ocupado");
+                    indexPlaza = parqueadero.searchPlazaByNumber();
+                    if(indexPlaza != -1){
+                        parqueadero.updateEstadoPlaza(indexPlaza, "Disponible");
+                    }
+                    break;
+                    
+                case 12:
+                    indexConductor = registros.searchByCedula();
+                    if(indexConductor != -1){
                         conductor = registros.getConductorByIndex(indexConductor);
                         //no estoy seguro si sea una buena practica usar los get desde aca o si deberia hacerlo
                         //de la clase registros unicamente
@@ -143,11 +100,9 @@ public class DemoParkingWheels
                         System.out.print("\nLas plazas libres para '" + tv + "' son: ");
                         parqueadero.mostrarPlazasTv(tv);
                         System.out.print("\nInserte la plaza en la cual va a estacionar -->");
-                        numeroPlaza = sc.nextLine();
+                        numeroPlaza = sc.nextInt();
                         //factura.
                     }
-                    
-                    
                     break;
                     
                 case 0:
@@ -158,7 +113,33 @@ public class DemoParkingWheels
                     System.out.println("Opcion incorrecta");
                     break;
             }
-        }while( opcionElegida >= 1 && opcionElegida <= 10);
+        }while( opcionElegida >= 1 && opcionElegida <= 13);
+    }
+    
+    public static void menu(){
+        System.out.println("\n\n-------------\n\nBienvenido a ParkingWheels, \n¿Qué tarea deseas realizar?");
+        System.out.println("1 - Mostrar conductores.");
+        //with car or bike
+        System.out.println("2 - Insertar conductor.");
+        System.out.println("3 - Modificar telefono.");
+        System.out.println("4 - Mostrar conductor por placa o cedula.");
+        System.out.println("5 - Eliminar conductor.");
+        
+        //do the same to update "placa" and "tv"
+        //DO THE SAME TO PLAZAS
+        //show "plazas" by state
+            System.out.println("7 - Listar Plazas.");
+            System.out.println("8 - Listar plazas por estado.");
+            System.out.println("9 - Listar plazas disponibles según TV.");
+            System.out.println("10 - Ocupar plaza.");
+            System.out.println("11 - Desocupar plaza.");
+            //metodo para obtener plazas y vehiculo estacionado
             
+            System.out.println("12 - Generar factura.");
+            System.out.println("13 - Generar cobro.");
+            
+            System.out.println("0 - Salir");
+            System.out.print("--------> ");
+            opcionElegida = sc.nextInt();
     }
 }

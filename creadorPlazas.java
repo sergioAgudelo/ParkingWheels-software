@@ -20,15 +20,15 @@ public class creadorPlazas
 
     public static Parqueadero crearPlazas(){
         Parqueadero parqueadero = new Parqueadero();
-        parqueadero.ingresarParqueadero("1", "Disponible", "Carrro");
-        parqueadero.ingresarParqueadero("2", "Ocupado", "Carrro");
-        parqueadero.ingresarParqueadero("4", "Disponible", "Carrro");
-        parqueadero.ingresarParqueadero("5", "Ocupado", "Carrro");
-        parqueadero.ingresarParqueadero("6", "Disponible", "Carrro");
-        parqueadero.ingresarParqueadero("7", "Ocupado", "Carrro");
-        parqueadero.ingresarParqueadero("8", "Ocupado", "Carrro");
-        parqueadero.ingresarParqueadero("9", "Ocupado", "Carrro");
-        parqueadero.ingresarParqueadero("10", "Disponible", "Carrro");
+        parqueadero.ingresarParqueadero("1", "Disponible", "Carro");
+        parqueadero.ingresarParqueadero("2", "Ocupado", "Carro");
+        parqueadero.ingresarParqueadero("4", "Disponible", "Carro");
+        parqueadero.ingresarParqueadero("5", "Ocupado", "Carro");
+        parqueadero.ingresarParqueadero("6", "Disponible", "Carro");
+        parqueadero.ingresarParqueadero("7", "Ocupado", "Carro");
+        parqueadero.ingresarParqueadero("8", "Ocupado", "Carro");
+        parqueadero.ingresarParqueadero("9", "Ocupado", "Carro");
+        parqueadero.ingresarParqueadero("10", "Disponible", "Carro");
         
         parqueadero.ingresarParqueadero("11", "Disponible", "Moto");
         parqueadero.ingresarParqueadero("12", "Disponible", "Moto");
