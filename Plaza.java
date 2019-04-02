@@ -1,4 +1,4 @@
-
+import java.util.Date;
 /**
  * Write a description of class Plaza here.
  * 
@@ -13,6 +13,8 @@ public class Plaza
     private String numero;
     private String estado;
     private String tv;
+    private String cedulaConductor;
+    private Date fechaEntrada;
     //private String ubicacion
     
 
@@ -25,14 +27,18 @@ public class Plaza
         this.numero = "99";
         this.estado = "Disponible";
         this.tv = "Carro";
+        this.cedulaConductor = "123456";
+        this.fechaEntrada = new Date();
     }
     
-    public Plaza(String numero, String estado, String tv)
+    public Plaza(String numero, String estado, String tv, String cedulaConductor, Date fechaEntrada)
     {
         // initialise instance variables
         this.numero = numero;
         this.estado = estado;
         this.tv = tv;
+        this.cedulaConductor = cedulaConductor;
+        this.fechaEntrada = fechaEntrada;
     }
     
     //Getters and setters
@@ -48,6 +54,14 @@ public class Plaza
         return this.tv;
     }
     
+    public String getCedulaConductor(){
+        return this.cedulaConductor;
+    }
+    
+    public Date getFechaEntrada(){
+        return this.fechaEntrada;
+    }
+    
     public void setNumero(String numero){
         this.numero = numero;
     }
@@ -58,5 +72,13 @@ public class Plaza
     
     public void setTv(String tv){
         this.tv = tv;
+    }
+    
+    public void setCedulaConductor(String cedulaConductor){
+        this.cedulaConductor = cedulaConductor;
+    }
+
+    public void setFechaEntrada(Date fechaEntrada){
+        this.fechaEntrada = fechaEntrada;
     }
 }

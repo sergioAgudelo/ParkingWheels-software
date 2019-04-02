@@ -1,4 +1,4 @@
-
+import java.util.Date;
 /**
  * Write a description of class creadorPlazas here.
  * 
@@ -20,31 +20,33 @@ public class creadorPlazas
 
     public static Parqueadero crearPlazas(){
         Parqueadero parqueadero = new Parqueadero();
-        parqueadero.ingresarParqueadero("1", "Disponible", "Carro");
-        parqueadero.ingresarParqueadero("2", "Ocupado", "Carro");
-        parqueadero.ingresarParqueadero("4", "Disponible", "Carro");
-        parqueadero.ingresarParqueadero("5", "Ocupado", "Carro");
-        parqueadero.ingresarParqueadero("6", "Disponible", "Carro");
-        parqueadero.ingresarParqueadero("7", "Ocupado", "Carro");
-        parqueadero.ingresarParqueadero("8", "Ocupado", "Carro");
-        parqueadero.ingresarParqueadero("9", "Ocupado", "Carro");
-        parqueadero.ingresarParqueadero("10", "Disponible", "Carro");
+        parqueadero.ingresarParqueadero("1", "Ocupado", "Carro", "645678", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("2", "Ocupado", "Carro", "845678", new Date(119, 3, 5, 6, 0));
+        parqueadero.ingresarParqueadero("3", "Disponible", "Carro", "", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("4", "Ocupado", "Carro", "745678", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("5", "Ocupado", "Carro", "945678", new Date(119, 3, 5, 6, 0));
+        parqueadero.ingresarParqueadero("6", "Disponible", "Carro", "", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("7", "Ocupado", "Carro", "345678", new Date(119, 3, 5, 7, 0));
+        parqueadero.ingresarParqueadero("8", "Ocupado", "Carro", "115678", new Date(119, 3, 5, 8, 0));
+        parqueadero.ingresarParqueadero("9", "Ocupado", "Carro", "545678", new Date(119, 3, 5, 5, 0));
+        parqueadero.ingresarParqueadero("10", "Disponible", "Carro", "", new Date(0, 0, 0, 0, 0));
         
-        parqueadero.ingresarParqueadero("11", "Disponible", "Moto");
-        parqueadero.ingresarParqueadero("12", "Disponible", "Moto");
-        parqueadero.ingresarParqueadero("13", "Ocupado", "Moto");
-        parqueadero.ingresarParqueadero("14", "Ocupado", "Moto");
-        parqueadero.ingresarParqueadero("15", "Disponible", "Moto");
-        parqueadero.ingresarParqueadero("16", "Ocupado", "Moto");
-        parqueadero.ingresarParqueadero("17", "Disponible", "Moto");
-        parqueadero.ingresarParqueadero("18", "Ocupado", "Moto");
-        parqueadero.ingresarParqueadero("19", "Disponible", "Moto");
-        parqueadero.ingresarParqueadero("20", "Disponible", "Moto");
-        parqueadero.ingresarParqueadero("21", "Disponible", "Moto");
-        parqueadero.ingresarParqueadero("22", "Disponible", "Moto");
-        parqueadero.ingresarParqueadero("23", "Disponible", "Moto");
-        parqueadero.ingresarParqueadero("24", "Ocupado", "Moto");
-        parqueadero.ingresarParqueadero("25", "Ocupado", "Moto");
+        parqueadero.ingresarParqueadero("11", "Ocupado", "Moto", "123456", new Date(119, 3, 5, 6, 0));
+        parqueadero.ingresarParqueadero("12", "Ocupado", "Moto", "234567", new Date(119, 3, 5, 8, 0));
+        parqueadero.ingresarParqueadero("13", "Disponible", "Moto", "", new Date(119, 3, 5, 4, 0));
+        parqueadero.ingresarParqueadero("14", "Disponible", "Moto", "", new Date(119, 3, 5, 6, 0));
+        parqueadero.ingresarParqueadero("15", "Disponible", "Moto", "", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("16", "Disponible", "Moto", "", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("17", "Disponible", "Moto", "", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("18", "Disponible", "Moto", "", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("19", "Disponible", "Moto", "", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("20", "Disponible", "Moto", "", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("21", "Disponible", "Moto", "", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("22", "Disponible", "Moto", "", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("23", "Disponible", "Moto", "", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("24", "Disponible", "Moto", "", new Date(0, 0, 0, 0, 0));
+        parqueadero.ingresarParqueadero("25", "Disponible", "Moto", "", new Date(0, 0, 0, 0, 0));
+        
         return parqueadero;
         
     }
