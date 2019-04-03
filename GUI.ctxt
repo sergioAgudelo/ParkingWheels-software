@@ -7,6 +7,4 @@ comment2.params=args
 comment2.target=void\ main(java.lang.String[])
 comment3.params=
 comment3.target=void\ crearVentana()
-comment4.params=e
-comment4.target=void\ actionPerformed(java.awt.event.ActionEvent)
-numComments=5
+numComments=4

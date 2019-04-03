@@ -14,6 +14,7 @@ public class Registros
     // instance variables - replace the example below with your own
     private ArrayList<Conductor> conductores;
     String tv, placa, telefono, cedula, nombre, basura;
+    String textArea = "";
     Scanner sc = new Scanner(System.in);
 
 
@@ -26,22 +27,6 @@ public class Registros
         conductores = new ArrayList<>();
     }
     
-    public void ingresarConductor(){
-        System.out.print("\nInserte el nombre -->");
-        nombre = sc.nextLine();
-        System.out.print("\nInserte la cedula -->");
-        cedula = sc.nextLine();
-        System.out.print("\nInserte el telefono -->");
-        telefono = sc.nextLine();
-        System.out.print("\nInserte la placa -->");
-        placa = sc.nextLine();
-        System.out.print("\nInserte el tv -->");
-        tv = sc.nextLine();
-        Conductor conductor = new Conductor(nombre, cedula, telefono, placa, tv);
-        conductores.add(conductor);
-        System.out.println("Usuario -" + nombre + "- insertado exitosamente.");
-    }
-    
     public String ingresarConductor(String nombre, String cedula, String telefono, String placa, String tv){
         Conductor conductor = new Conductor(nombre, cedula, telefono, placa, tv);
         //revisar: unique
@@ -50,7 +35,7 @@ public class Registros
     }
 
     public String mostrarConductores(){
-        String textArea = "";
+        textArea = "";
         int indice = 0;
         Iterator<Conductor> iterator = conductores.iterator();
         while(iterator.hasNext()){
@@ -66,35 +51,30 @@ public class Registros
         return textArea;
     }
     
-    public void mostrarConductorPorPlacaOCedula(){
-        System.out.print("\nInserte la cedula/placa a buscar -->");
-        //For this case cedula acts as a cedula or a placa to the search
-        String parametroBusqueda = sc.nextLine();
-
+    public String mostrarConductorPorPlacaOCedula(String parametroBusqueda){
+        textArea = "";
         Iterator<Conductor> iterator = conductores.iterator();
         boolean finished = false;
         while(iterator.hasNext() && finished == false){
             Conductor conductor = iterator.next();
              if(conductor.getCedula().equalsIgnoreCase(parametroBusqueda) || conductor.getPlaca().equalsIgnoreCase(parametroBusqueda)){
-                 System.out.println("\n******* - Nombre: " + conductor.getNombre() +
-                                    ", Cedula: " + conductor.getCedula() +
-                                    ", Telefono: " + conductor.getTelefono() +
-                                    ", Placa: " + conductor.getPlaca() +
-                                    ", TV: " + conductor.getTv()
-                                    );
+                 textArea = " - Nombre: " + conductor.getNombre() +
+                            ", Cedula: " + conductor.getCedula() +
+                            ", Telefono: " + conductor.getTelefono() +
+                            ", Placa: " + conductor.getPlaca() +
+                            ", TV: " + conductor.getTv();
                                     
                  finished = true;
              }
         }
         
         if(finished == false){
-             System.out.println("*******El conductor con cedula/placa -" + parametroBusqueda + "- no existe.");
+             textArea = "*******El conductor con cedula/placa -" + parametroBusqueda + "- no existe.";
         }
+        return textArea;
     }
     
-    public int searchByCedula(){
-        System.out.print("\nDigite la cedula del usuario -->");
-        cedula = sc.nextLine();
+    public int searchByCedula(String cedula){
         Iterator<Conductor> iterator = conductores.iterator();
         while(iterator.hasNext()){
              Conductor conductor = iterator.next();
@@ -102,7 +82,6 @@ public class Registros
                  return conductores.indexOf(conductor);
              }
         }
-        System.out.println("*******No existe un conductor con la cedula -" + cedula + "-.");
         return -1;
     }
     
@@ -110,18 +89,25 @@ public class Registros
         return conductores.get(index);
     }
     
-    public void updateTelefono(int indexConductor){
+    public String updateTelefono(int indexConductor, String telefono){
         if(indexConductor != -1){
-            System.out.print("\nInserte el nuevo telefono -->");
-            telefono = sc.nextLine();
             conductores.get(indexConductor).setTelefono(telefono);
-            System.out.println("*******Se ha actualizado el telefono de -" + conductores.get(indexConductor).getNombre()+ "- exitosamente a -" + telefono + "-.");
+            textArea = "Se ha actualizado el telefono de -" + conductores.get(indexConductor).getNombre()+ "- exitosamente a -" + telefono + "-.";
+        }else{
+            textArea = "*******El conductor no existe.";
         }
+        
+        return textArea;
     }
     
-    public void eliminarUsuarioPorCedula(int indexConductor){
-        conductores.remove(indexConductor);
-        System.out.println("*******Usuario eliminado exitosamete.");
+    public String eliminarUsuarioPorCedula(int indexConductor){
+        if(indexConductor != -1){
+            conductores.remove(indexConductor);
+            textArea = "Usuario eliminado exitosamete.";
+        }else{
+            textArea = "*******El conductor no existe.";
+        }
+        return textArea;
     }
     
     

@@ -18,6 +18,9 @@ public class GUI
     private JButton jbShowCon, jbInseCon, jbUpdaTel, jbShowConPlaOCed, jbDeleCon, jbShowPlaCed, jbShowPla, jbShowPlaEst, jbShoPlaDisTv,
         jbOcuPla, jbDesPla, jbGenFac, jbGenCob;
     private JLabel titleLabel;
+    
+    private String nombre, cedula, telefono, placa, tv, parametroBusqueda;
+    private String estado, numero;
         
     public GUI()
     {
@@ -31,7 +34,7 @@ public class GUI
     private void crearVentana(){
         ventana = new JFrame("Parking Whells");
         
-        ventana.setBounds(200, 200, 1000, 1000);
+        ventana.setBounds(0, 0, 1000, 1000);
         jpPrincipal = (JPanel) ventana.getContentPane();
         jpPrincipal.setLayout(new BorderLayout());
         
@@ -55,22 +58,21 @@ public class GUI
         
         jbShowCon.addActionListener(new  mostrarConductores());
         jbInseCon.addActionListener(new  ingresarConductor());
-        jbUpdaTel.addActionListener(new  mostrarConductores());
-        jbShowConPlaOCed.addActionListener(new  mostrarConductores());
-        jbDeleCon.addActionListener(new  mostrarConductores());
-        jbShowPlaCed.addActionListener(new  mostrarConductores());
-        jbShowPla.addActionListener(new  mostrarConductores());
-        jbShowPlaEst.addActionListener(new  mostrarConductores());
-        jbShoPlaDisTv.addActionListener(new  mostrarConductores());
-        jbOcuPla.addActionListener(new  mostrarConductores());
-        jbDesPla.addActionListener(new  mostrarConductores());
-        jbGenFac.addActionListener(new  mostrarConductores());
-        jbGenCob.addActionListener(new  mostrarConductores());
-        jbGenCob.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                new  mostrarConductores();
-            }
-        });
+        jbUpdaTel.addActionListener(new  updateTelefono());
+        jbShowConPlaOCed.addActionListener(new  mostrarConductorPorPlacaOCedula());
+        jbDeleCon.addActionListener(new  eliminarUsuarioPorCedula());
+        jbShowPlaCed.addActionListener(new  searchPlazaByConductor());
+        jbShowPla.addActionListener(new  monstrarPlazas());
+        jbShowPlaEst.addActionListener(new  mostrarPlazasPorEstado());
+        jbShoPlaDisTv.addActionListener(new  mostrarPlazasTv());
+        jbOcuPla.addActionListener(new  updateEstadoPlazaOcupado());
+        jbDesPla.addActionListener(new  updateEstadoPlazaDisponible());
+  //      jbGenFac.addActionListener(new  ingresarVehiculo());
+  //      jbGenCob.addActionListener(new ActionListener(){
+  //          public void actionPerformed(ActionEvent e){
+  //              new  generarCobro();
+  //          }
+  //      });
         
         jpBotones = new JPanel();
         jpBotones.setLayout(new GridLayout(0, 1));
@@ -94,7 +96,6 @@ public class GUI
         ventana.add(textAreaConsola, BorderLayout.CENTER);
         ventana.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        ventana.pack();
         ventana.setVisible(true);
     }
     
@@ -110,12 +111,109 @@ public class GUI
     {
         public void actionPerformed(ActionEvent e)
         {
-            String nombre = JOptionPane.showInputDialog("Inserte el nombre");
-            String cedula = JOptionPane.showInputDialog("Inserte la cedula");
-            String telefono = JOptionPane.showInputDialog("Inserte el telefono");
-            String placa = JOptionPane.showInputDialog("Inserte la placa");
-            String tv = JOptionPane.showInputDialog("Inserte el tv");
+            //revisar: validar numero y showoptiondialog
+            nombre = JOptionPane.showInputDialog("Inserte el nombre");
+            cedula = JOptionPane.showInputDialog("Inserte la cedula");
+            telefono = JOptionPane.showInputDialog("Inserte el telefono");
+            placa = JOptionPane.showInputDialog("Inserte la placa");
+            tv = JOptionPane.showInputDialog("Inserte el tv");
             textAreaConsola.setText(factura.ingresarConductor(nombre, cedula, telefono, placa, tv));
+        }
+    }
+    
+    class updateTelefono implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            //revisar: validar numero
+            cedula = JOptionPane.showInputDialog("Digite la cedula del usuario");
+            telefono = JOptionPane.showInputDialog("Inserte el nuevo telefono");
+            textAreaConsola.setText(factura.updateTelefono(cedula, telefono));
+        }
+    }
+    
+    class mostrarConductorPorPlacaOCedula implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            //revisar: validar numero
+            parametroBusqueda = JOptionPane.showInputDialog("Inserte la cedula/placa a buscar");
+            textAreaConsola.setText(factura.mostrarConductorPorPlacaOCedula(parametroBusqueda));
+        }
+    }
+
+    class eliminarUsuarioPorCedula implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            //revisar: validar numero
+            cedula = JOptionPane.showInputDialog("Digite la cedula del usuario");
+            textAreaConsola.setText(factura.eliminarUsuarioPorCedula(cedula));
+        }
+    }
+    
+    class searchPlazaByConductor implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            //revisar: validar numero
+            cedula = JOptionPane.showInputDialog("Digite la cedula del usuario");
+            textAreaConsola.setText(factura.searchPlazaByConductor(cedula));
+        }
+    }
+    
+    class monstrarPlazas implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            textAreaConsola.setText(factura.monstrarPlazas());
+        }
+    }
+    
+    class mostrarPlazasPorEstado implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            //revisar: showOptiOonDialog
+            estado = JOptionPane.showInputDialog("Digite el estado a buscar (Disponible/Ocupado)");
+            textAreaConsola.setText(factura.mostrarPlazasPorEstado(estado));
+        }
+    }
+    
+    class mostrarPlazasTv implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            //revisar: showOptiOonDialog
+            tv = JOptionPane.showInputDialog("Inserte el TV a buscar (Carro/Moto)");
+            textAreaConsola.setText(factura.mostrarPlazasTv(tv));
+        }
+    }
+    
+    class updateEstadoPlazaOcupado implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            //revisar: showOptiOonDialog
+            textAreaConsola.setText("");
+            textAreaConsola.setText(factura.mostrarPlazasPorEstado("Disponible"));
+            numero = JOptionPane.showInputDialog("Escoga la plaza a ocupar.");
+            cedula = JOptionPane.showInputDialog("Inserte la cedula del conductor.");
+            textAreaConsola.setText("");
+            textAreaConsola.setText(factura.updateEstadoPlaza(numero, cedula, "Ocupado"));
+        }
+    }
+    
+    class updateEstadoPlazaDisponible implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            //revisar: showOptiOonDialog
+            textAreaConsola.setText("");
+            textAreaConsola.setText(factura.mostrarPlazasPorEstado("Ocupado"));
+            numero = JOptionPane.showInputDialog("Escoga la plaza a desocupar.");
+            textAreaConsola.setText("");
+            textAreaConsola.setText(factura.updateEstadoPlaza(numero, "", "Disponible"));
         }
     }
 }

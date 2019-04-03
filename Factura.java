@@ -24,6 +24,7 @@ public class Factura
        
     
     String tv, placa, telefono, cedula, nombre, basura;
+    String textArea = "";
     int indexConductor;
     String estado, numeroPlaza;
     int indexPlaza;
@@ -38,81 +39,95 @@ public class Factura
         return registros.ingresarConductor(nombre, cedula, telefono, placa, tv);
     }
                        
-    public void updateTelefono(){
-        indexConductor = registros.searchByCedula();
-        registros.updateTelefono(indexConductor);
+    public String updateTelefono(String cedula, String telefono){
+        indexConductor = registros.searchByCedula(cedula);
+        return registros.updateTelefono(indexConductor, telefono);
     }
                 
-    public void mostrarConductorPorPlacaOCedula(){
-        registros.mostrarConductorPorPlacaOCedula();
+    public String mostrarConductorPorPlacaOCedula(String parametroBusqueda){
+        return registros.mostrarConductorPorPlacaOCedula(parametroBusqueda);
     }
                 
-    public void eliminarUsuarioPorCedula(){
-        indexConductor = registros.searchByCedula();
-        registros.eliminarUsuarioPorCedula(indexConductor);
+    public String eliminarUsuarioPorCedula(String cedula){
+        indexConductor = registros.searchByCedula(cedula);
+        return registros.eliminarUsuarioPorCedula(indexConductor);
     }
                 
-    public void searchPlazaByConductor(){
-        parqueadero.searchPlazaByConductor();
+    public String searchPlazaByConductor(String cedula){
+        return parqueadero.searchPlazaByConductor(cedula);
     }
         
-    public void monstrarPlazas(){
-        parqueadero.monstrarPlazas();
+    public String monstrarPlazas(){
+        return parqueadero.monstrarPlazas();
     }
         
-    public void mostrarPlazasPorEstado(){
-        parqueadero.mostrarPlazasPorEstado();
+    public String mostrarPlazasPorEstado(String estado){
+        return parqueadero.mostrarPlazasPorEstado(estado);
     }
         
-    public void mostrarPlazasTv(){
-        parqueadero.mostrarPlazasTv();
+    public String mostrarPlazasTv(String tv){
+        return parqueadero.mostrarPlazasTv(tv);
     }
         
-    public void updateEstadoPlazaOcupado(){
-        parqueadero.mostrarPlazasPorEstado("Disponible");
-        indexPlaza = parqueadero.searchPlazaByNumber();
-        if(indexPlaza != -1){
-            System.out.print("\nInserte la cedula del conductor. -->");
-            basura = sc.nextLine();
-            cedula = sc.nextLine();
-            parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, new Date());
+    public String updateEstadoPlaza(String numero, String cedula, String estado){
+        if(!cedula.equalsIgnoreCase("")){
+            indexConductor = registros.searchByCedula(cedula);
+        }else{
+            indexConductor = 1;
         }
+            
+        if(indexConductor != -1){
+            indexPlaza = parqueadero.searchPlazaByNumber(Integer.parseInt(numero));
+            if(indexPlaza != -1){
+                if(estado.equalsIgnoreCase("Ocupado")){
+                    textArea = parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, new Date());
+                }else if(estado.equalsIgnoreCase("Disponible")){
+                    textArea = parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", cedula, new Date(0, 0, 1, 0, 0));
+                }
+            }else{
+                textArea = "******La plaza no existe";
+            }
+        }else{
+            textArea = "*******El conductor no existe.";
+        }
+        
+        return textArea;
     }
         
     public void updateEstadoPlazaDisponible(){
         parqueadero.mostrarPlazasPorEstado("Ocupado");
-        indexPlaza = parqueadero.searchPlazaByNumber();
+        //indexPlaza = parqueadero.searchPlazaByNumber();
         if(indexPlaza != -1){
             parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", new Date(0, 0, 1, 0, 0));
         }
     }
         
     public void ingresarVehiculo(){
-        indexConductor = registros.searchByCedula();
-        if(indexConductor != -1){
-            conductor = registros.getConductorByIndex(indexConductor);
+        //indexConductor = registros.searchByCedula();
+        //if(indexConductor != -1){
+        //   conductor = registros.getConductorByIndex(indexConductor);
             //no estoy seguro si sea una buena practica usar los get desde aca o si deberia hacerlo
             //de la clase registros unicamente
             cedula = conductor.getCedula();
             tv = conductor.getTv();
             System.out.println("\nLas plazas libres para '" + tv + "' son: ");
             parqueadero.mostrarPlazasTvYEstado(tv, "Disponible");
-            indexPlaza = parqueadero.searchPlazaByNumber();
+            //indexPlaza = parqueadero.searchPlazaByNumber();
             if(indexPlaza != -1){
                 parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, new Date());
-            }   
+        //    }   
             
             //factura.
         }
     }
         
     public void generarCobro(){
-        indexConductor = registros.searchByCedula();
+        //indexConductor = registros.searchByCedula();
         if(indexConductor != -1){
             conductor = registros.getConductorByIndex(indexConductor);
             cedula = conductor.getCedula();
             tv = conductor.getTv();
-            indexPlaza = parqueadero.searchPlazaByConductor(cedula);
+            //indexPlaza = parqueadero.searchPlazaByConductor(cedula);
             if(indexPlaza != -1){
                 System.out.println("Debe cancelar: " + parqueadero.cobrar(indexPlaza, tv) + " pesos.");
                 parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", new Date(0, 0, 1, 0, 0));
@@ -122,150 +137,5 @@ public class Factura
         
     public void despedida(){
         System.out.println("\n\n------>Gracias por preferirnos<-------");
-    }
-    
-    public static void menu(){
-        System.out.println("\n\n-------------\n\nBienvenido a ParkingWheels, \n¿Qué tarea deseas realizar?");
-        System.out.println("1 - Mostrar conductores.");
-        //with car or bike
-        System.out.println("2 - Insertar conductor.");
-        System.out.println("3 - Modificar telefono.");
-        System.out.println("4 - Mostrar conductor por placa o cedula.");
-        System.out.println("5 - Eliminar conductor.");
-        
-        //do the same to update "placa" and "tv"
-        //DO THE SAME TO PLAZAS
-        //show "plazas" by state
-        System.out.println("6 - Buscar plaza por cedula.");
-        System.out.println("7 - Listar Plazas.");
-        System.out.println("8 - Listar plazas por estado.");
-        System.out.println("9 - Listar plazas disponibles según TV.");
-        System.out.println("10 - Ocupar plaza.");
-        System.out.println("11 - Desocupar plaza.");
-        //metodo para obtener plazas y vehiculo estacionado
-        
-        System.out.println("12 - Generar factura.");
-        System.out.println("13 - Generar cobro.");
-        
-        System.out.println("0 - Salir");
-        System.out.print("--------> ");
-        opcionElegida = sc.nextInt();
-    }
-    
-    static public void switchMenu(int opcionElegida){
-        String tv, placa, telefono, cedula, nombre, basura;
-        int indexConductor;
-        String estado, numeroPlaza;
-        int indexPlaza;
-        
-        Conductor conductor = new Conductor();
-       
-        do{ 
-            switch (opcionElegida){
-                //mostrar conductores
-                case 1:
-                    registros.mostrarConductores();
-                    break;
-                
-                    //Insertar nuevo conductor
-                case 2:
-                    registros.ingresarConductor();
-                    break;
-                       
-                //modificar telefono
-                case 3:
-                    indexConductor = registros.searchByCedula();
-                    registros.updateTelefono(indexConductor);
-                    break;
-                
-                //buscar por placa o cedula
-                case 4:
-                    registros.mostrarConductorPorPlacaOCedula();
-                    break;
-                
-                //eliminar conductor
-                case 5:
-                    indexConductor = registros.searchByCedula();
-                    registros.eliminarUsuarioPorCedula(indexConductor);
-                    break;
-                
-                case 6:
-                    parqueadero.searchPlazaByConductor();
-                    break;
-                    
-                //monstrar estados plazas
-                case 7:
-                    parqueadero.monstrarPlazas();
-                    break;
-                    
-                case 8:
-                    parqueadero.mostrarPlazasPorEstado();
-                    break;
-                    
-                case 9:
-                    parqueadero.mostrarPlazasTv();
-                    break;
-                    
-                case 10:
-                    parqueadero.mostrarPlazasPorEstado("Disponible");
-                    indexPlaza = parqueadero.searchPlazaByNumber();
-                    if(indexPlaza != -1){
-                        System.out.print("\nInserte la cedula del conductor. -->");
-                        basura = sc.nextLine();
-                        cedula = sc.nextLine();
-                        parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, new Date());
-                    }
-                    break;
-                    
-                case 11:
-                    parqueadero.mostrarPlazasPorEstado("Ocupado");
-                    indexPlaza = parqueadero.searchPlazaByNumber();
-                    if(indexPlaza != -1){
-                        parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", new Date(0, 0, 1, 0, 0));
-                    }
-                    break;
-                    
-                case 12:
-                    indexConductor = registros.searchByCedula();
-                    if(indexConductor != -1){
-                        conductor = registros.getConductorByIndex(indexConductor);
-                        //no estoy seguro si sea una buena practica usar los get desde aca o si deberia hacerlo
-                        //de la clase registros unicamente
-                        cedula = conductor.getCedula();
-                        tv = conductor.getTv();
-                        System.out.println("\nLas plazas libres para '" + tv + "' son: ");
-                        parqueadero.mostrarPlazasTvYEstado(tv, "Disponible");
-                        indexPlaza = parqueadero.searchPlazaByNumber();
-                        if(indexPlaza != -1){
-                            parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, new Date());
-                        }   
-                        
-                        //factura.
-                    }
-                    break;
-                    
-                case 13:
-                    indexConductor = registros.searchByCedula();
-                    if(indexConductor != -1){
-                        conductor = registros.getConductorByIndex(indexConductor);
-                        cedula = conductor.getCedula();
-                        tv = conductor.getTv();
-                        indexPlaza = parqueadero.searchPlazaByConductor(cedula);
-                        if(indexPlaza != -1){
-                            System.out.println("Debe cancelar: " + parqueadero.cobrar(indexPlaza, tv) + " pesos.");
-                            parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", new Date(0, 0, 1, 0, 0));
-                        }
-                    }
-                    break;
-                    
-                case 0:
-                    System.out.println("\n\n------>Gracias por preferirnos<-------");
-                    break;
-                   
-                default:
-                    System.out.println("Opcion incorrecta");
-                    break;
-            }
-        }while( opcionElegida >= 1 && opcionElegida <= 13);
     }
 }
