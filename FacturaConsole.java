@@ -2,126 +2,143 @@ import java.util.Scanner;
 import java.util.Date;
 
 /**
-* Write a description of class Factura here.
+* Write a description of class FacturaConsole here.
 * 
 * @author (your name) 
 * @version (a version number or a date)
 */
-public class Factura
+public class FacturaConsole
 {
     // instance variables - replace the example below with your own
     static private Registros registros = CreadorRegistros.crearConductores();
     static private Parqueadero parqueadero = creadorPlazas.crearPlazas();
-    //static private Factura factura = Factura
+    //static private FacturaConsole factura = FacturaConsole
     
     static Scanner sc = new Scanner(System.in);
     static int opcionElegida = 0;
     
     public static void main(String[] args)
     {
-        
+        switchMenu();
     }
        
-    
-    String tv, placa, telefono, cedula, nombre, basura;
-    int indexConductor;
-    String estado, numeroPlaza;
-    int indexPlaza;
-    
-    Conductor conductor = new Conductor();
+    static public void switchMenu(){
+        String tv, placa, telefono, cedula, nombre, basura;
+        int indexConductor;
+        String estado, numeroPlaza;
+        int indexPlaza;
+        
+        Conductor conductor = new Conductor();
        
-    public String mostrarConductores(){
-        return registros.mostrarConductores();
-    }
-                
-    public String ingresarConductor(String nombre, String cedula, String telefono, String placa, String tv){
-        return registros.ingresarConductor(nombre, cedula, telefono, placa, tv);
-    }
-                       
-    public void updateTelefono(){
-        indexConductor = registros.searchByCedula();
-        registros.updateTelefono(indexConductor);
-    }
-                
-    public void mostrarConductorPorPlacaOCedula(){
-        registros.mostrarConductorPorPlacaOCedula();
-    }
-                
-    public void eliminarUsuarioPorCedula(){
-        indexConductor = registros.searchByCedula();
-        registros.eliminarUsuarioPorCedula(indexConductor);
-    }
-                
-    public void searchPlazaByConductor(){
-        parqueadero.searchPlazaByConductor();
-    }
-        
-    public void monstrarPlazas(){
-        parqueadero.monstrarPlazas();
-    }
-        
-    public void mostrarPlazasPorEstado(){
-        parqueadero.mostrarPlazasPorEstado();
-    }
-        
-    public void mostrarPlazasTv(){
-        parqueadero.mostrarPlazasTv();
-    }
-        
-    public void updateEstadoPlazaOcupado(){
-        parqueadero.mostrarPlazasPorEstado("Disponible");
-        indexPlaza = parqueadero.searchPlazaByNumber();
-        if(indexPlaza != -1){
-            System.out.print("\nInserte la cedula del conductor. -->");
-            basura = sc.nextLine();
-            cedula = sc.nextLine();
-            parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, new Date());
-        }
-    }
-        
-    public void updateEstadoPlazaDisponible(){
-        parqueadero.mostrarPlazasPorEstado("Ocupado");
-        indexPlaza = parqueadero.searchPlazaByNumber();
-        if(indexPlaza != -1){
-            parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", new Date(0, 0, 1, 0, 0));
-        }
-    }
-        
-    public void ingresarVehiculo(){
-        indexConductor = registros.searchByCedula();
-        if(indexConductor != -1){
-            conductor = registros.getConductorByIndex(indexConductor);
-            //no estoy seguro si sea una buena practica usar los get desde aca o si deberia hacerlo
-            //de la clase registros unicamente
-            cedula = conductor.getCedula();
-            tv = conductor.getTv();
-            System.out.println("\nLas plazas libres para '" + tv + "' son: ");
-            parqueadero.mostrarPlazasTvYEstado(tv, "Disponible");
-            indexPlaza = parqueadero.searchPlazaByNumber();
-            if(indexPlaza != -1){
-                parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, new Date());
-            }   
+        do{
+            menu();
             
-            //factura.
-        }
-    }
-        
-    public void generarCobro(){
-        indexConductor = registros.searchByCedula();
-        if(indexConductor != -1){
-            conductor = registros.getConductorByIndex(indexConductor);
-            cedula = conductor.getCedula();
-            tv = conductor.getTv();
-            indexPlaza = parqueadero.searchPlazaByConductor(cedula);
-            if(indexPlaza != -1){
-                System.out.println("Debe cancelar: " + parqueadero.cobrar(indexPlaza, tv) + " pesos.");
-                parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", new Date(0, 0, 1, 0, 0));
+            switch (opcionElegida){
+                //mostrar conductores
+                case 1:
+                    registros.mostrarConductores();
+                    break;
+                
+                    //Insertar nuevo conductor
+                case 2:
+                    registros.ingresarConductor();
+                    break;
+                       
+                //modificar telefono
+                case 3:
+                    indexConductor = registros.searchByCedula();
+                    registros.updateTelefono(indexConductor);
+                    break;
+                
+                //buscar por placa o cedula
+                case 4:
+                    registros.mostrarConductorPorPlacaOCedula();
+                    break;
+                
+                //eliminar conductor
+                case 5:
+                    indexConductor = registros.searchByCedula();
+                    registros.eliminarUsuarioPorCedula(indexConductor);
+                    break;
+                
+                case 6:
+                    parqueadero.searchPlazaByConductor();
+                    break;
+                    
+                //monstrar estados plazas
+                case 7:
+                    parqueadero.monstrarPlazas();
+                    break;
+                    
+                case 8:
+                    parqueadero.mostrarPlazasPorEstado();
+                    break;
+                    
+                case 9:
+                    parqueadero.mostrarPlazasTv();
+                    break;
+                    
+                case 10:
+                    parqueadero.mostrarPlazasPorEstado("Disponible");
+                    indexPlaza = parqueadero.searchPlazaByNumber();
+                    if(indexPlaza != -1){
+                        System.out.print("\nInserte la cedula del conductor. -->");
+                        basura = sc.nextLine();
+                        cedula = sc.nextLine();
+                        parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, new Date());
+                    }
+                    break;
+                    
+                case 11:
+                    parqueadero.mostrarPlazasPorEstado("Ocupado");
+                    indexPlaza = parqueadero.searchPlazaByNumber();
+                    if(indexPlaza != -1){
+                        parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", new Date(0, 0, 1, 0, 0));
+                    }
+                    break;
+                    
+                case 12:
+                    indexConductor = registros.searchByCedula();
+                    if(indexConductor != -1){
+                        conductor = registros.getConductorByIndex(indexConductor);
+                        //no estoy seguro si sea una buena practica usar los get desde aca o si deberia hacerlo
+                        //de la clase registros unicamente
+                        cedula = conductor.getCedula();
+                        tv = conductor.getTv();
+                        System.out.println("\nLas plazas libres para '" + tv + "' son: ");
+                        parqueadero.mostrarPlazasTvYEstado(tv, "Disponible");
+                        indexPlaza = parqueadero.searchPlazaByNumber();
+                        if(indexPlaza != -1){
+                            parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, new Date());
+                        }   
+                        
+                        //factura.
+                    }
+                    break;
+                    
+                case 13:
+                    indexConductor = registros.searchByCedula();
+                    if(indexConductor != -1){
+                        conductor = registros.getConductorByIndex(indexConductor);
+                        cedula = conductor.getCedula();
+                        tv = conductor.getTv();
+                        indexPlaza = parqueadero.searchPlazaByConductor(cedula);
+                        if(indexPlaza != -1){
+                            System.out.println("Debe cancelar: " + parqueadero.cobrar(indexPlaza, tv) + " pesos.");
+                            parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", new Date(0, 0, 1, 0, 0));
+                        }
+                    }
+                    break;
+                    
+                case 0:
+                    System.out.println("\n\n------>Gracias por preferirnos<-------");
+                    break;
+                   
+                default:
+                    System.out.println("Opcion incorrecta");
+                    break;
             }
-        }
-    }
-        
-    public void despedida(){
-        System.out.println("\n\n------>Gracias por preferirnos<-------");
+        }while( opcionElegida >= 1 && opcionElegida <= 13);
     }
     
     public static void menu(){

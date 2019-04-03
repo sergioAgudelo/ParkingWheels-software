@@ -42,22 +42,28 @@ public class Registros
         System.out.println("Usuario -" + nombre + "- insertado exitosamente.");
     }
     
-    public void ingresarConductor(String nombre, String cedula, String telefono, String placa, String tv){
+    public String ingresarConductor(String nombre, String cedula, String telefono, String placa, String tv){
         Conductor conductor = new Conductor(nombre, cedula, telefono, placa, tv);
+        //revisar: unique
         conductores.add(conductor);
+        return "Conductor " + nombre + " ingresado correctamente\n";
     }
 
-    public void mostrarConductores(){
+    public String mostrarConductores(){
+        String textArea = "";
+        int indice = 0;
         Iterator<Conductor> iterator = conductores.iterator();
         while(iterator.hasNext()){
+            indice++;
              Conductor conductor = iterator.next();
-             System.out.println("******* - Nombre: " + conductor.getNombre() +
+             textArea = textArea + indice + ". Nombre: " + conductor.getNombre() +
                                 ", Cedula: " + conductor.getCedula() +
                                 ", Telefono: " + conductor.getTelefono() +
                                 ", Placa: " + conductor.getPlaca() +
-                                ", TV: " + conductor.getTv()
-                                );
+                                ", TV: " + conductor.getTv() + "\n";
         }
+        
+        return textArea;
     }
     
     public void mostrarConductorPorPlacaOCedula(){
