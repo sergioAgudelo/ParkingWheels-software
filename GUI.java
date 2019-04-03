@@ -17,10 +17,11 @@ public class GUI
     private JTextArea textAreaConsola;
     private JButton jbShowCon, jbInseCon, jbUpdaTel, jbShowConPlaOCed, jbDeleCon, jbShowPlaCed, jbShowPla, jbShowPlaEst, jbShoPlaDisTv,
         jbOcuPla, jbDesPla, jbGenFac, jbGenCob;
-    private JLabel titleLabel;
+    private JLabel titleLabel, footerLabel;
     
     private String nombre, cedula, telefono, placa, tv, parametroBusqueda;
     private String estado, numero;
+    private String textArea;
         
     public GUI()
     {
@@ -34,13 +35,16 @@ public class GUI
     private void crearVentana(){
         ventana = new JFrame("Parking Whells");
         
-        ventana.setBounds(0, 0, 1000, 1000);
-        jpPrincipal = (JPanel) ventana.getContentPane();
-        jpPrincipal.setLayout(new BorderLayout());
+        ventana.setBounds(0, 0, 10000, 700);
+        ventana.setLayout(new BorderLayout());
+        //jpPrincipal = (JPanel) ventana.getContentPane();
+        //jpPrincipal.setLayout(new BorderLayout());
         
         titleLabel = new JLabel("Parking Wheels - Software 2");
         
         textAreaConsola = new JTextArea("Bienvenido a Parking Wheels");
+        
+        footerLabel = new JLabel("Desarrrollado por Sergio Agudelo y Lizeth Parra.");
         
         jbShowCon = new JButton("Listar Conductores");
         jbInseCon = new JButton("Insertar conductor");
@@ -67,12 +71,8 @@ public class GUI
         jbShoPlaDisTv.addActionListener(new  mostrarPlazasTv());
         jbOcuPla.addActionListener(new  updateEstadoPlazaOcupado());
         jbDesPla.addActionListener(new  updateEstadoPlazaDisponible());
-  //      jbGenFac.addActionListener(new  ingresarVehiculo());
-  //      jbGenCob.addActionListener(new ActionListener(){
-  //          public void actionPerformed(ActionEvent e){
-  //              new  generarCobro();
-  //          }
-  //      });
+        jbGenFac.addActionListener(new  ingresarVehiculo());
+        jbGenCob.addActionListener(new generarCobro());
         
         jpBotones = new JPanel();
         jpBotones.setLayout(new GridLayout(0, 1));
@@ -94,6 +94,7 @@ public class GUI
         ventana.add(titleLabel, BorderLayout.NORTH);
         ventana.add(jpBotones, BorderLayout.WEST);
         ventana.add(textAreaConsola, BorderLayout.CENTER);
+        ventana.add(footerLabel, BorderLayout.SOUTH);
         ventana.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         ventana.setVisible(true);
@@ -214,6 +215,37 @@ public class GUI
             numero = JOptionPane.showInputDialog("Escoga la plaza a desocupar.");
             textAreaConsola.setText("");
             textAreaConsola.setText(factura.updateEstadoPlaza(numero, "", "Disponible"));
+        }
+    }
+    
+    class ingresarVehiculo implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            //revisar: showOptiOonDialog
+            textArea = "";
+            textAreaConsola.setText("");
+            tv = JOptionPane.showInputDialog("Inserte el TV a estacionar (Carro/Moto)");
+            textArea = "Las plazas libres para '" + tv + "' son:\n\n";
+            textArea = textArea + factura.mostrarPlazasTvYEstado(tv, "Disponible");
+            textAreaConsola.setText(textArea);
+            numero = JOptionPane.showInputDialog("Escoga la plaza a ocupar.");
+            cedula = JOptionPane.showInputDialog("Inserte la cedula del conductor.");
+            textAreaConsola.setText("");
+            textAreaConsola.setText(factura.ingresarVehiculo(numero, cedula, "Ocupado"));
+        }
+    }
+    
+    class generarCobro implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            //revisar: showOptiOonDialog
+            textAreaConsola.setText("");
+            textAreaConsola.setText(factura.mostrarPlazasPorEstado("Ocupado"));
+            numero = JOptionPane.showInputDialog("Escoga la plaza a desocupar.");
+            textAreaConsola.setText("");
+            textAreaConsola.setText(factura.generarCobro(numero, "Disponible"));
         }
     }
 }

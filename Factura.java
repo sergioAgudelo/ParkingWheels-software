@@ -68,6 +68,10 @@ public class Factura
     public String mostrarPlazasTv(String tv){
         return parqueadero.mostrarPlazasTv(tv);
     }
+    
+    public String mostrarPlazasTvYEstado(String estado, String tv){
+        return parqueadero.mostrarPlazasTvYEstado(estado, tv);
+    }
         
     public String updateEstadoPlaza(String numero, String cedula, String estado){
         if(!cedula.equalsIgnoreCase("")){
@@ -82,7 +86,7 @@ public class Factura
                 if(estado.equalsIgnoreCase("Ocupado")){
                     textArea = parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, new Date());
                 }else if(estado.equalsIgnoreCase("Disponible")){
-                    textArea = parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", cedula, new Date(0, 0, 1, 0, 0));
+                    textArea = parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", new Date(0, 0, 1, 0, 0));
                 }
             }else{
                 textArea = "******La plaza no existe";
@@ -94,48 +98,40 @@ public class Factura
         return textArea;
     }
         
-    public void updateEstadoPlazaDisponible(){
-        parqueadero.mostrarPlazasPorEstado("Ocupado");
-        //indexPlaza = parqueadero.searchPlazaByNumber();
-        if(indexPlaza != -1){
-            parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", new Date(0, 0, 1, 0, 0));
-        }
-    }
-        
-    public void ingresarVehiculo(){
-        //indexConductor = registros.searchByCedula();
-        //if(indexConductor != -1){
-        //   conductor = registros.getConductorByIndex(indexConductor);
-            //no estoy seguro si sea una buena practica usar los get desde aca o si deberia hacerlo
-            //de la clase registros unicamente
-            cedula = conductor.getCedula();
-            tv = conductor.getTv();
-            System.out.println("\nLas plazas libres para '" + tv + "' son: ");
-            parqueadero.mostrarPlazasTvYEstado(tv, "Disponible");
-            //indexPlaza = parqueadero.searchPlazaByNumber();
-            if(indexPlaza != -1){
-                parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, new Date());
-        //    }   
-            
-            //factura.
-        }
-    }
-        
-    public void generarCobro(){
-        //indexConductor = registros.searchByCedula();
+    public String ingresarVehiculo(String numero, String cedula, String estado){
+        indexConductor = registros.searchByCedula(cedula);
         if(indexConductor != -1){
             conductor = registros.getConductorByIndex(indexConductor);
-            cedula = conductor.getCedula();
             tv = conductor.getTv();
-            //indexPlaza = parqueadero.searchPlazaByConductor(cedula);
+            indexPlaza = parqueadero.searchPlazaByNumber(Integer.parseInt(numero));
             if(indexPlaza != -1){
-                System.out.println("Debe cancelar: " + parqueadero.cobrar(indexPlaza, tv) + " pesos.");
-                parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", new Date(0, 0, 1, 0, 0));
+                textArea = parqueadero.updateEstadoPlaza(indexPlaza, estado, cedula, new Date());
+            }else{
+                textArea = "******La plaza no existe";
             }
+        }else{
+            textArea = "*******El conductor no existe.";
         }
+        return textArea;
     }
         
-    public void despedida(){
-        System.out.println("\n\n------>Gracias por preferirnos<-------");
+    public String generarCobro(String numero, String estado){
+        indexPlaza = parqueadero.searchPlazaByNumber(Integer.parseInt(numero));
+        if(indexPlaza != -1){
+            cedula = parqueadero.getPlazas().get(indexPlaza - 1).getCedulaConductor();
+            indexConductor = registros.searchByCedula(cedula);
+            if(indexConductor != -1){
+                conductor = registros.getConductorByIndex(indexConductor);
+                tv = conductor.getTv();
+                textArea = "El conductor '" + cedula + "' debe cancelar: " + parqueadero.cobrar(indexPlaza, tv) + " pesos.\n";
+                textArea = textArea + parqueadero.updateEstadoPlaza(indexPlaza, estado, "", new Date(0, 0, 1, 0, 0));
+            }else{
+                textArea = "*******El conductor no existe.";
+            }
+        }else{
+            textArea = "******La plaza no existe";
+        }
+        
+        return textArea;
     }
 }

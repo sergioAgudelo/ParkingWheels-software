@@ -14,6 +14,11 @@ public class Parqueadero
 {
     // instance variables - replace the example below with your own
     private ArrayList<Plaza> plazas;
+    
+    public ArrayList<Plaza> getPlazas(){
+        return plazas;
+    }
+    
     private Plaza plaza;
     
     String estado, tv, cedula;
@@ -45,7 +50,8 @@ public class Parqueadero
              textArea = textArea + plaza.getNumero() +
                         ". Estado: " + plaza.getEstado() +
                         ", TV: " + plaza.getTv() +
-                        ", ocupante: " + plaza.getCedulaConductor() + ".\n";
+                        ", ocupante: " + plaza.getCedulaConductor() +
+                        ", hora entrada: " + plaza.getFechaEntrada().getHours() + ".\n";
         }
         return textArea;
     }
@@ -60,7 +66,8 @@ public class Parqueadero
                  textArea = textArea + plaza.getNumero() +
                             ". Estado: " + plaza.getEstado() +
                             ", TV: " + plaza.getTv() +
-                            ", ocupante: " + plaza.getCedulaConductor() + ".\n";
+                            ", ocupante: " + plaza.getCedulaConductor() +
+                            ", hora entrada: " + plaza.getFechaEntrada().getHours() + ".\n";
                                 
                  plazasVacias = true;
             }
@@ -87,7 +94,8 @@ public class Parqueadero
                  textArea = textArea + plaza.getNumero() +
                             ". Estado: " + plaza.getEstado() +
                             ", TV: " + plaza.getTv() +
-                            ", ocupante: " + plaza.getCedulaConductor() + ",\n";
+                            ", ocupante: " + plaza.getCedulaConductor() +
+                            ", hora entrada: " + plaza.getFechaEntrada().getHours() + ".\n";
                                 
                  plazasVacias = true;
             }
@@ -101,17 +109,18 @@ public class Parqueadero
         return textArea;
     }
     
-    public void mostrarPlazasTvYEstado(String tv,String estado){
+    public String mostrarPlazasTvYEstado(String tv,String estado){
+        textArea = "";
         boolean plazasVacias = false;
         Iterator<Plaza> iterator = plazas.iterator();
         while(iterator.hasNext()){
              plaza = iterator.next();
              if(plaza.getTv().equalsIgnoreCase(tv) && plaza.getEstado().equalsIgnoreCase(estado)){
-                 System.out.println("******* - Número: " + plaza.getNumero() +
-                                ", Estado: " + plaza.getEstado() +
-                                ", TV: " + plaza.getTv() +
-                                ", ocupante: " + plaza.getCedulaConductor()
-                                );
+                 textArea = textArea + plaza.getNumero() +
+                            ". Estado: " + plaza.getEstado() +
+                            ", TV: " + plaza.getTv() +
+                            ", ocupante: " + plaza.getCedulaConductor() +
+                            ", hora entrada: " + plaza.getFechaEntrada().getHours() + ".\n";
                                 
                  plazasVacias = true;
             }
@@ -119,15 +128,17 @@ public class Parqueadero
         }
         
         if(plazasVacias == false){
-            System.out.println("*******No hay plazas disponibles.");
+            textArea = "*******No hay plazas disponibles.";
         }
+        
+        return textArea;
     }
     
     public int searchPlazaByNumber(int numeroPlaza){    
         //revisar: que la plaza no exista
         Plaza plaza = new Plaza();
         if(numeroPlaza <= plazas.size() && numeroPlaza > 0){            
-            return numeroPlaza;
+            return Integer.parseInt(plazas.get(numeroPlaza - 1).getNumero());
         }else{
         }
         return -1;
@@ -148,21 +159,33 @@ public class Parqueadero
         return textArea;
     }
     
+    public int searchPlazaByConductorInt(String cedulaConductor){                
+        Iterator<Plaza> iterator = plazas.iterator();
+        int contador = 0;
+        while(iterator.hasNext()){
+            contador++;
+            Plaza plaza= iterator.next();
+             if(plaza.getCedulaConductor().equalsIgnoreCase(cedulaConductor)){
+                 return contador;
+             }
+        }
+        return -1;
+    }
+    
     public String updateEstadoPlaza(int numeroPlaza, String estado, String cedula, Date fechaEntrada){
         if(validarEstadoPlaza(numeroPlaza, estado) == 1){
             plazas.get(numeroPlaza - 1).setEstado(estado);
             plazas.get(numeroPlaza - 1).setCedulaConductor(cedula);
             plazas.get(numeroPlaza - 1).setFechaEntrada(fechaEntrada);
             int year = 1900 + fechaEntrada.getYear();
-            textArea = "*******Estado de la plaza -" + numeroPlaza + "- actualizado exitosamente a -" + estado + "-";
+            textArea = "Estado de la plaza -" + numeroPlaza + "- actualizado exitosamente a -" + estado + "-";
             if(!cedula.equalsIgnoreCase("")){
                 textArea = textArea + "por el usuario" + " con cedula: -" + cedula + "-";
             }
             textArea = textArea + ".       (" + fechaEntrada.getHours() + " - " + fechaEntrada.getDay() + "/" + fechaEntrada.getMonth() 
             + "/" + year   + ")";
-            
         }else{
-            textArea = "la plaza no esta disponible, escoja otra plaza.";
+            textArea = "*******La plaza no esta disponible, escoja otra plaza.";
         }
         return textArea;
     }
@@ -188,11 +211,6 @@ public class Parqueadero
                 return 1500;
             }
         }
-        
-        //System.out.println("-------------------horaactual " + horaActual.getHours() 
-//        + "plaza " + plazas.get(indexPlaza - 1).getNumero() + " cedula " + plazas.get(indexPlaza - 1).getCedulaConductor()
-//        + "fechaentrada " + plazas.get(indexPlaza - 1).getFechaEntrada()
-//        + " cobro " + cobro);
         
         return cobro;
     }
