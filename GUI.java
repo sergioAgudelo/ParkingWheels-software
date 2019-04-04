@@ -21,8 +21,11 @@ public class GUI extends JFrame{
     private String nombre, cedula, telefono, placa, tv, parametroBusqueda;
     private String estado, numero;
     private String textArea;
+<<<<<<< HEAD
     private JPanel panel1;
     private JMenuBar menuBar;
+=======
+>>>>>>> 6f52dbb52dc7771d92f842dba025a60ba1ea80e2
     
         
     public GUI()
@@ -45,6 +48,19 @@ public class GUI extends JFrame{
         ventana.setLayout(new BorderLayout());
         //jpPrincipal = (JPanel) ventana.getContentPane();
         //jpPrincipal.setLayout(new BorderLayout());
+        
+        JMenuBar menuBar = new JMenuBar();
+        ventana.setJMenuBar(menuBar);
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+        JMenuItem acercaDe = new JMenuItem("Acerca de ...");
+        acercaDe.addActionListener(new acercaDe());
+        fileMenu.add(acercaDe);
+        JMenuItem guardar = new JMenuItem("Guardar");
+        guardar.addActionListener(new guardar());
+        fileMenu.add(guardar);
+
+
         
         titleLabel = new JLabel("Parking Wheels - Software 2");
         
@@ -114,6 +130,18 @@ public class GUI extends JFrame{
         ventana.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         ventana.setVisible(true);
+    }
+    
+    class acercaDe implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            JOptionPane.showMessageDialog(ventana, 
+            "Este proyecto fue desarrollador para la materia Software 2 dictada por Fernando Rojas.\n" +
+            "Funciona como sistema de gestión para un parqueadero, permite manejar conductores y las plazas.\n" +
+            "Realizado por Sergio Agudelo y Lizeth Parra el 3 de Abril de 2019.\n"
+            , "About Parking Wheels", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
     
     class mostrarConductores implements ActionListener
@@ -262,6 +290,15 @@ public class GUI extends JFrame{
             numero = JOptionPane.showInputDialog("Escoga la plaza a desocupar.");
             textAreaConsola.setText("");
             textAreaConsola.setText(factura.generarCobro(numero, "Disponible"));
+        }
+    }
+    
+    class guardar implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            factura.guardar();
+            JOptionPane.showMessageDialog( ventana, "Archivo conductores.txt y plazas.txt guardados satistactoriamente." );
         }
     }
 }
