@@ -8,8 +8,7 @@ import java.awt.event.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class GUI
-{
+public class GUI extends JFrame{
     private Factura factura = new Factura();
     
     private JFrame ventana;
@@ -22,6 +21,9 @@ public class GUI
     private String nombre, cedula, telefono, placa, tv, parametroBusqueda;
     private String estado, numero;
     private String textArea;
+    private JPanel panel1;
+    private JMenuBar menuBar;
+    
         
     public GUI()
     {
@@ -33,6 +35,10 @@ public class GUI
     }
     
     private void crearVentana(){
+        
+        
+        
+        
         ventana = new JFrame("Parking Whells");
         
         ventana.setBounds(0, 0, 10000, 700);
@@ -73,6 +79,16 @@ public class GUI
         jbDesPla.addActionListener(new  updateEstadoPlazaDisponible());
         jbGenFac.addActionListener(new  ingresarVehiculo());
         jbGenCob.addActionListener(new generarCobro());
+        
+        
+		panel1 = new JPanel(null);
+		panel1.setBorder(BorderFactory.createEtchedBorder(1));
+		panel1.setBounds(43,36,411,331);
+		panel1.setBackground(new Color(214,217,223));
+		panel1.setForeground(new Color(0,0,0));
+		panel1.setEnabled(true);
+		panel1.setFont(new Font("sansserif",0,12));
+		panel1.setVisible(true);
         
         jpBotones = new JPanel();
         jpBotones.setLayout(new GridLayout(0, 1));
