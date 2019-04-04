@@ -14,7 +14,7 @@ public class Plaza
     private String estado;
     private String tv;
     private String cedulaConductor;
-    private Date fechaEntrada;
+    private String horaEntrada;
     //private String ubicacion
     
 
@@ -28,17 +28,17 @@ public class Plaza
         this.estado = "Disponible";
         this.tv = "Carro";
         this.cedulaConductor = "123456";
-        this.fechaEntrada = new Date();
+        this.horaEntrada = "6";
     }
     
-    public Plaza(String numero, String estado, String tv, String cedulaConductor, Date fechaEntrada)
+    public Plaza(String numero, String estado, String tv, String cedulaConductor, String horaEntrada)
     {
         // initialise instance variables
         this.numero = numero;
         this.estado = estado;
         this.tv = tv;
         this.cedulaConductor = cedulaConductor;
-        this.fechaEntrada = fechaEntrada;
+        this.horaEntrada = horaEntrada;
     }
     
     //Getters and setters
@@ -58,8 +58,8 @@ public class Plaza
         return this.cedulaConductor;
     }
     
-    public Date getFechaEntrada(){
-        return this.fechaEntrada;
+    public String getHoraEntrada(){
+        return this.horaEntrada;
     }
     
     public void setNumero(String numero){
@@ -78,7 +78,7 @@ public class Plaza
         this.cedulaConductor = cedulaConductor;
     }
 
-    public void setFechaEntrada(Date fechaEntrada){
-        this.fechaEntrada = fechaEntrada;
+    public void setHoraEntrada(String horaEntrada){
+        this.horaEntrada = horaEntrada;
     }
 }

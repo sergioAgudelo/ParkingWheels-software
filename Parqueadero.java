@@ -2,7 +2,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Date;
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.FileWriter;
 
 /**
  * Write a description of class Parqueadero here.
@@ -21,8 +24,10 @@ public class Parqueadero
     
     private Plaza plaza;
     
-    String estado, tv, cedula;
+    String estado, tv, cedula, numero, horaEntrada, cedulaConductor, plazaStr;
     String textArea = "";
+    
+    private FileWriter fw;
     
     int numeroPlaza;
     
@@ -35,10 +40,58 @@ public class Parqueadero
     {
         // initialise instance variables
         plazas = new ArrayList<>();
+        cargaPlazas();
+    }
+    
+    public void cargaPlazas(){
+        try{
+             sc = new Scanner(new File("plazas.txt")).useDelimiter(",");
+             while(sc.hasNext()){
+                plazaStr = sc.nextLine();
+                strToPlaza(plazaStr);
+             }
+        }
+        catch(FileNotFoundException e)
+        {
+            System.out.println("No se encontro el archivo");
+        }
+    }
+    
+    public void strToPlaza(String plazaStr){
+        Scanner s = new Scanner(plazaStr).useDelimiter(",");
+        numero = s.next();
+        estado = s.next();
+        tv = s.next();
+        cedulaConductor = s.next();
+        horaEntrada = s.next();
+        plaza = new Plaza(numero, estado, tv, cedulaConductor, horaEntrada);
+        plazas.add(plaza);
+    }
+    
+    public void guardaPlazas(){
+        Iterator<Plaza> iterator = plazas.iterator();
+        String textArea = "";
+        while(iterator.hasNext()){
+            try{
+                fw = new FileWriter(new File("plazas.txt"));
+                
+                Plaza plaza = iterator.next();
+                textArea = textArea + plaza.getNumero() + "," +
+                                plaza.getEstado() + "," +
+                                plaza.getTv() + "," +
+                                plaza.getCedulaConductor() + "," +
+                                plaza.getHoraEntrada() + "\n";
+                
+                fw.write(String.format("%s", textArea));
+                fw.close();
+            }catch(IOException ex){
+                System.out.println("No se pudo escribir el archivo.");
+            }
+        }
     }
 
-    public void ingresarParqueadero(String numero, String estado, String tv, String cedulaConductor, Date fechaEntrada){
-        Plaza plaza = new Plaza(numero, estado, tv, cedulaConductor, fechaEntrada);
+    public void ingresarParqueadero(String numero, String estado, String tv, String cedulaConductor, String horaEntrada){
+        Plaza plaza = new Plaza(numero, estado, tv, cedulaConductor, horaEntrada);
         plazas.add(plaza);
     }
     
@@ -51,7 +104,7 @@ public class Parqueadero
                         ". Estado: " + plaza.getEstado() +
                         ", TV: " + plaza.getTv() +
                         ", ocupante: " + plaza.getCedulaConductor() +
-                        ", hora entrada: " + plaza.getFechaEntrada().getHours() + ".\n";
+                        ", hora entrada: " + plaza.getHoraEntrada() + ".\n";
         }
         return textArea;
     }
@@ -67,7 +120,7 @@ public class Parqueadero
                             ". Estado: " + plaza.getEstado() +
                             ", TV: " + plaza.getTv() +
                             ", ocupante: " + plaza.getCedulaConductor() +
-                            ", hora entrada: " + plaza.getFechaEntrada().getHours() + ".\n";
+                            ", hora entrada: " + plaza.getHoraEntrada() + ".\n";
                                 
                  plazasVacias = true;
             }
@@ -95,7 +148,7 @@ public class Parqueadero
                             ". Estado: " + plaza.getEstado() +
                             ", TV: " + plaza.getTv() +
                             ", ocupante: " + plaza.getCedulaConductor() +
-                            ", hora entrada: " + plaza.getFechaEntrada().getHours() + ".\n";
+                            ", hora entrada: " + plaza.getHoraEntrada() + ".\n";
                                 
                  plazasVacias = true;
             }
@@ -120,7 +173,7 @@ public class Parqueadero
                             ". Estado: " + plaza.getEstado() +
                             ", TV: " + plaza.getTv() +
                             ", ocupante: " + plaza.getCedulaConductor() +
-                            ", hora entrada: " + plaza.getFechaEntrada().getHours() + ".\n";
+                            ", hora entrada: " + plaza.getHoraEntrada() + ".\n";
                                 
                  plazasVacias = true;
             }
@@ -172,18 +225,16 @@ public class Parqueadero
         return -1;
     }
     
-    public String updateEstadoPlaza(int numeroPlaza, String estado, String cedula, Date fechaEntrada){
+    public String updateEstadoPlaza(int numeroPlaza, String estado, String cedula, String horaEntrada){
         if(validarEstadoPlaza(numeroPlaza, estado) == 1){
             plazas.get(numeroPlaza - 1).setEstado(estado);
             plazas.get(numeroPlaza - 1).setCedulaConductor(cedula);
-            plazas.get(numeroPlaza - 1).setFechaEntrada(fechaEntrada);
-            int year = 1900 + fechaEntrada.getYear();
+            plazas.get(numeroPlaza - 1).setHoraEntrada(horaEntrada);
             textArea = "Estado de la plaza -" + numeroPlaza + "- actualizado exitosamente a -" + estado + "-";
             if(!cedula.equalsIgnoreCase("")){
                 textArea = textArea + "por el usuario" + " con cedula: -" + cedula + "-";
             }
-            textArea = textArea + ".       (" + fechaEntrada.getHours() + " - " + fechaEntrada.getDay() + "/" + fechaEntrada.getMonth() 
-            + "/" + year   + ")";
+            textArea = textArea + ". ---   hora entrada: " + horaEntrada ;
         }else{
             textArea = "*******La plaza no esta disponible, escoja otra plaza.";
         }
@@ -201,12 +252,12 @@ public class Parqueadero
         Date horaActual = new Date();
         int cobro;
         if(tv.equalsIgnoreCase("Moto")){
-            cobro = (horaActual.getHours() - plazas.get(indexPlaza - 1).getFechaEntrada().getHours()) * 1000;
+            cobro = (horaActual.getHours() - Integer.parseInt(plazas.get(indexPlaza - 1).getHoraEntrada())) * 1000;
             if(cobro == 0){
                 return 1000;
             }
         }else{
-            cobro = (horaActual.getHours() - plazas.get(indexPlaza - 1).getFechaEntrada().getHours()) * 1500;
+            cobro = (horaActual.getHours() - Integer.parseInt(plazas.get(indexPlaza - 1).getHoraEntrada())) * 1500;
             if(cobro == 0){
                 return 1500;
             }
