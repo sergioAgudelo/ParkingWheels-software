@@ -40,6 +40,7 @@ public class GUI_project extends JFrame {
     private JTextArea textarea1;
     private JLabel footerLabel;
     private JScrollPane scroll;
+    private JPanel contentPane;
     
     private Factura factura = new Factura();
     private String nombre, cedula, telefono, placa, tv, parametroBusqueda;
@@ -262,7 +263,6 @@ public class GUI_project extends JFrame {
         
     }
     
-<<<<<<< HEAD
         ActionListener accion = new ActionListener(){
         
             @Override
@@ -276,18 +276,6 @@ public class GUI_project extends JFrame {
         }
                    
         };
-=======
-    ActionListener accion = new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent ae){
-            //saludo.setText("Hola soy Liz");
-            if(ae.getSource()==button7){
-               ventan2 = new segundaVenta();
-               ventan2.setVisible(true);
-            }     
-        }        
-    };
->>>>>>> 37b660dcb9e92275912442404943343906898c86
 
     //method for generate menu
     public void generateMenu(){
@@ -302,6 +290,13 @@ public class GUI_project extends JFrame {
         JMenuItem exit = new JMenuItem("Exit   ");
         JMenuItem preferences = new JMenuItem("Preferences   ");
         JMenuItem about = new JMenuItem("About   ");
+        
+        JMenuItem acercaDe = new JMenuItem("Acerca de ...");
+        acercaDe.addActionListener(new acercaDe());
+        file.add(acercaDe);
+        JMenuItem guardar = new JMenuItem("Guardar");
+        guardar.addActionListener(new guardar());
+        file.add(guardar);
 
 
         file.add(open);
@@ -473,6 +468,26 @@ public class GUI_project extends JFrame {
                 new GUI_project();
             }
         });
+    }
+    
+    class acercaDe implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            JOptionPane.showMessageDialog(contentPane, 
+            "Este proyecto fue desarrollador para la materia Software 2 dictada por Fernando Rojas.\n" +
+            "Funciona como sistema de gestión para un parqueadero, permite manejar conductores y las plazas.\n" +
+            "Realizado por Sergio Agudelo y Lizeth Parra el 3 de Abril de 2019.\n"
+            , "About Parking Wheels", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+    class guardar implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            factura.guardar();
+            JOptionPane.showMessageDialog(contentPane, "Archivo conductores.txt y plazas.txt guardados satistactoriamente." );
+        }
     }
 
 }

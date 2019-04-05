@@ -18,13 +18,6 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import java.lang.String;
 
-<<<<<<< HEAD
-=======
-    
-
-
-
->>>>>>> 37b660dcb9e92275912442404943343906898c86
 
 
 public class segundaVenta extends JFrame {
@@ -34,13 +27,10 @@ public class segundaVenta extends JFrame {
     ImageIcon ocupado = new ImageIcon(this.getClass().getResource("rojo.jpg"));
     int value = 0;
     private JScrollPane scroll;
-<<<<<<< HEAD
-    Parqueadero park =  plazas.crearPlazas();
+    Parqueadero park =  new Parqueadero();
     Factura factura = new Factura();
     String nombre, cedula, telefono, placa, tv, parametroBusqueda;
     String estado, numero;
-=======
->>>>>>> 37b660dcb9e92275912442404943343906898c86
     
     public static void main(String args[]){
         new segundaVenta ();
@@ -56,7 +46,6 @@ public class segundaVenta extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         p.setLayout(new GridLayout(5,5));
         
-<<<<<<< HEAD
  
 
         for(int i=0; i<25; i++){
@@ -70,30 +59,11 @@ public class segundaVenta extends JFrame {
             }
             
 
-=======
-        
-        
- 
-
-        for(int i=0; i<25; i++){
-          
-            ImageIcon disponible =  new ImageIcon(this.getClass().getResource("verde.jpg"));
-            buttons[i] = new JButton(disponible);
-            
-            Parqueadero park =  plazas.crearPlazas();
-            Plaza a = park.getPlazas().get(i);
-            String estado = a.getEstado();
-           
->>>>>>> 37b660dcb9e92275912442404943343906898c86
             if(estado == "Ocupado"){
                buttons[i].setIcon(ocupado);
                buttons[i].addActionListener(accion);
             }
-<<<<<<< HEAD
  
-=======
-            
->>>>>>> 37b660dcb9e92275912442404943343906898c86
             p.add(buttons[i]);
             
             
@@ -110,7 +80,6 @@ public class segundaVenta extends JFrame {
         
             @Override
                 public void actionPerformed(ActionEvent ae){
-<<<<<<< HEAD
                     for(int i=0; i<25; i++){
                         if(ae.getSource()==buttons[i]){
                             Plaza a = park.getPlazas().get(i);
@@ -140,16 +109,5 @@ public class segundaVenta extends JFrame {
    
   }
 
-=======
-                    for(int i=0; i<9; i++){
-                        if(ae.getSource()==buttons[i])
-                        JOptionPane.showMessageDialog(null,"PlazaOcupada!");
-                        }
-                    }
-    };
-                    
-                      
-};
->>>>>>> 37b660dcb9e92275912442404943343906898c86
      
  

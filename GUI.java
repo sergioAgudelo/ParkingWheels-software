@@ -21,16 +21,12 @@ public class GUI extends JFrame{
     private String nombre, cedula, telefono, placa, tv, parametroBusqueda;
     private String estado, numero;
     private String textArea;
-<<<<<<< HEAD
+
     private JPanel panel1;
     private JMenuBar menuBar;
-=======
-<<<<<<< HEAD
-    private JPanel panel1;
-    private JMenuBar menuBar;
-=======
->>>>>>> 6f52dbb52dc7771d92f842dba025a60ba1ea80e2
->>>>>>> 37b660dcb9e92275912442404943343906898c86
+
+   
+
     
         
     public GUI()

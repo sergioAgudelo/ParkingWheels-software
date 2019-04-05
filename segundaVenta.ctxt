@@ -6,10 +6,6 @@ comment2.params=
 comment2.target=segundaVenta()
 comment3.params=ae
 comment3.target=void\ actionPerformed(java.awt.event.ActionEvent)
-<<<<<<< HEAD
 comment4.params=ae
 comment4.target=void\ actionPerformed(java.awt.event.ActionEvent)
 numComments=5
-=======
-numComments=4
->>>>>>> 37b660dcb9e92275912442404943343906898c86
