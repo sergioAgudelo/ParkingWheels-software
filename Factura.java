@@ -10,8 +10,10 @@ import java.util.Date;
 public class Factura
 {
     // instance variables - replace the example below with your own
-    static private Registros registros = CreadorRegistros.crearConductores();
-    static private Parqueadero parqueadero = creadorPlazas.crearPlazas();
+    //static private Registros registros = CreadorRegistros.crearConductores();
+    static private Registros registros = new Registros();
+    static private Parqueadero parqueadero = new Parqueadero();
+    //static private Parqueadero parqueadero = creadorPlazas.crearPlazas();
     //static private Factura factura = Factura
     
     static Scanner sc = new Scanner(System.in);
@@ -30,6 +32,11 @@ public class Factura
     int indexPlaza;
     
     Conductor conductor = new Conductor();
+    
+    public void guardar(){
+        registros.guardaConductores();
+        parqueadero.guardaPlazas();
+    }
        
     public String mostrarConductores(){
         return registros.mostrarConductores();
@@ -80,13 +87,14 @@ public class Factura
             indexConductor = 1;
         }
             
+        Date horaActual = new Date();
         if(indexConductor != -1){
             indexPlaza = parqueadero.searchPlazaByNumber(Integer.parseInt(numero));
             if(indexPlaza != -1){
                 if(estado.equalsIgnoreCase("Ocupado")){
-                    textArea = parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, new Date());
+                    textArea = parqueadero.updateEstadoPlaza(indexPlaza, "Ocupado", cedula, String.valueOf(horaActual.getHours()));
                 }else if(estado.equalsIgnoreCase("Disponible")){
-                    textArea = parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", new Date(0, 0, 1, 0, 0));
+                    textArea = parqueadero.updateEstadoPlaza(indexPlaza, "Disponible", "", "0");
                 }
             }else{
                 textArea = "******La plaza no existe";
@@ -100,12 +108,14 @@ public class Factura
         
     public String ingresarVehiculo(String numero, String cedula, String estado){
         indexConductor = registros.searchByCedula(cedula);
+        
+        Date horaActual = new Date();
         if(indexConductor != -1){
             conductor = registros.getConductorByIndex(indexConductor);
             tv = conductor.getTv();
             indexPlaza = parqueadero.searchPlazaByNumber(Integer.parseInt(numero));
             if(indexPlaza != -1){
-                textArea = parqueadero.updateEstadoPlaza(indexPlaza, estado, cedula, new Date());
+                textArea = parqueadero.updateEstadoPlaza(indexPlaza, estado, cedula, String.valueOf(horaActual.getHours()));
             }else{
                 textArea = "******La plaza no existe";
             }
@@ -124,7 +134,7 @@ public class Factura
                 conductor = registros.getConductorByIndex(indexConductor);
                 tv = conductor.getTv();
                 textArea = "El conductor '" + cedula + "' debe cancelar: " + parqueadero.cobrar(indexPlaza, tv) + " pesos.\n";
-                textArea = textArea + parqueadero.updateEstadoPlaza(indexPlaza, estado, "", new Date(0, 0, 1, 0, 0));
+                textArea = textArea + parqueadero.updateEstadoPlaza(indexPlaza, estado, "", "0");
             }else{
                 textArea = "*******El conductor no existe.";
             }

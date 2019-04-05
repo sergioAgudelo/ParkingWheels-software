@@ -262,6 +262,7 @@ public class GUI_project extends JFrame {
         
     }
     
+<<<<<<< HEAD
         ActionListener accion = new ActionListener(){
         
             @Override
@@ -275,6 +276,18 @@ public class GUI_project extends JFrame {
         }
                    
         };
+=======
+    ActionListener accion = new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent ae){
+            //saludo.setText("Hola soy Liz");
+            if(ae.getSource()==button7){
+               ventan2 = new segundaVenta();
+               ventan2.setVisible(true);
+            }     
+        }        
+    };
+>>>>>>> 37b660dcb9e92275912442404943343906898c86
 
     //method for generate menu
     public void generateMenu(){
