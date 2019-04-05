@@ -144,7 +144,7 @@ public class GUI_project extends JFrame {
         button7.setFont(new Font("Trebuchet MS",0,14));
         button7.setText("Listar Plazas");
         button7.setVisible(true);
-        button7.addActionListener(accion);
+        //button7.addActionListener(accion);
         
         
 
@@ -462,7 +462,6 @@ public class GUI_project extends JFrame {
 
 
      public static void main(String[] args){
-        System.setProperty("swing.defaultlaf", "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new GUI_project();

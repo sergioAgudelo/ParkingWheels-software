@@ -1,6 +1,6 @@
-1,Disponible,Carro,,0
+1,Ocupado,Carro,123456,0
 2,Ocupado,Carro,845678,6
-3,Ocupado,Carro,1234567,6
+3,Disponible,Carro,,0
 4,Ocupado,Carro,745678,6
 5,Ocupado,Carro,945678,6
 6,Disponible,Carro,,0
